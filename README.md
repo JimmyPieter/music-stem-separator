@@ -9,6 +9,7 @@ Demucs en BS-RoFormer.
 - Lokale audio uploaden: MP3, WAV, FLAC, M4A, AAC, OGG, OPUS en WMA.
 - Uitvoer kiezen als MP3 of WAV.
 - Normale karaoke: zang verwijderen.
+- Leadzang en achtergrondkoor apart maken met UVR-BVE.
 - Gitaar karaoke: met BS-RoFormer alles behalve de gitaarlijn combineren.
 - Scheiden in 4 of 6 stems.
 - Automatische NVIDIA/CUDA-detectie met CPU-fallback.
@@ -54,6 +55,7 @@ onderdelen en zijn niet nodig voor dagelijks gebruik.
 |---|---|
 | Download | YouTube-audio downloaden of een upload converteren |
 | Zang karaoke | Instrumentale versie zonder vocals, plus vocals |
+| Zang & koor scheiden | Lead vocals, backing vocals en instrumental |
 | 4 stems | Vocals, drums, bass en other |
 | 6 stems | Vocals, drums, bass, guitar, piano en other met Demucs |
 | BS-RoFormer 6 stems | Zes losse stems met BS-RoFormer |

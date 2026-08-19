@@ -39,6 +39,10 @@ Automatische invoerherkenning is aanbevolen. Kies MP3 voor kleinere bestanden of
 WAV voor verliesvrije uitvoer. Deze keuze geldt voor downloads, conversies,
 karaoke en losse stems.
 
+De actie **Zang & koor scheiden** maakt `lead_vocals`, `backing_vocals` en
+`instrumental`. Het UVR-BVE-model (ongeveer 224 MB) wordt bij het eerste gebruik
+automatisch gedownload en daarna lokaal hergebruikt.
+
 ## Stoppen en herstarten
 
 Stop met `Ctrl+C`. Start daarna opnieuw met hetzelfde `app.py`-commando. Een

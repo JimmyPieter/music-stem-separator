@@ -19,6 +19,7 @@ from smart_processor import SmartProcessor
 from youtube_downloader import YouTubeAudioDownloader
 
 from bs_roformer_separator import BSRoformerProcessor
+from vocal_choir_separator import VocalChoirProcessor
 
 # Set console encoding for Windows
 if sys.platform == 'win32':
@@ -37,7 +38,7 @@ SUPPORTED_AUDIO_EXTENSIONS = {
 }
 VALID_ACTIONS = {
     'download', 'karaoke', '4-stem', '6-stem', 'bs-6-stem',
-    'guitar-karaoke'
+    'guitar-karaoke', 'vocal-choir'
 }
 OUTPUT_FORMATS = {'mp3', 'wav'}
 
@@ -72,6 +73,8 @@ def run_processing_job(urls, uploaded_files, mode, model, output_format,
     processor = None
     if mode == 'karaoke':
         processor = KaraokeCreator(model=model, high_performance=high_performance)
+    elif mode == 'vocal-choir':
+        processor = VocalChoirProcessor(high_performance=high_performance)
     elif mode == 'download':
         processor = YouTubeAudioDownloader(
             output_dir='downloads', format=output_format
@@ -96,12 +99,28 @@ def run_processing_job(urls, uploaded_files, mode, model, output_format,
                     f"Item {item_index + 1}/{len(sources)}: {message}"
                 )
             processor.separator.progress_callback = update_bs_progress
+        elif mode == 'vocal-choir':
+            def update_vocal_progress(item_percentage, message, item_index=i):
+                job_status['percentage'] = round(
+                    (item_index + item_percentage / 100) / len(sources) * 100
+                )
+                job_status['current_task'] = (
+                    f"Item {item_index + 1}/{len(sources)}: {message}"
+                )
+            processor.progress_callback = update_vocal_progress
         try:
             if mode == 'karaoke':
                 result = (processor.create_from_youtube(
                               source, keep_original=False,
                               output_format=output_format)
                           if source_type == 'url' else processor.create_from_file(
+                              source, output_format=output_format))
+                job_status['output_files'].extend(result.values())
+            elif mode == 'vocal-choir':
+                result = (processor.process_from_youtube(
+                              source, output_format=output_format)
+                          if source_type == 'url'
+                          else processor.process_local_file(
                               source, output_format=output_format))
                 job_status['output_files'].extend(result.values())
             elif mode == 'download':
@@ -198,10 +217,13 @@ def process():
         model = 'htdemucs_6s'
     elif action in ('bs-6-stem', 'guitar-karaoke'):
         model = 'bs-roformer-sw-6s'
+    elif action == 'vocal-choir':
+        model = 'htdemucs_ft + UVR-BVE'
 
     estimate_model = (
         'htdemucs_6s'
-        if action in ('bs-6-stem', 'guitar-karaoke') else model
+        if action in ('bs-6-stem', 'guitar-karaoke')
+        else 'htdemucs_ft' if action == 'vocal-choir' else model
     )
     return render_template(
         'confirm.html', urls=urls, uploaded_files=uploaded_files,

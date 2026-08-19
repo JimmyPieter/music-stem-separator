@@ -4,6 +4,9 @@ yt-dlp[default]==2026.7.4
 # Audio Processing and Stem Separation
 demucs>=4.0.0
 bs-roformer-infer==0.1.5
+audio-separator==0.44.5
+onnxruntime-gpu>=1.17
+torchvision==0.20.1
 torch>=2.0.0
 torchaudio>=2.0.0
 

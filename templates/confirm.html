@@ -12,7 +12,7 @@
         <div class="alert alert-secondary">
             <strong>Action:</strong> 
             <span class="text-capitalize">
-                {% if action == 'bs-6-stem' %}BS-RoFormer 6-stem separation{% elif action == 'guitar-karaoke' %}Gitaar karaoke (alles behalve gitaar){% else %}{{ action }} Separation{% endif %}
+                {% if action == 'bs-6-stem' %}BS-RoFormer 6-stem separation{% elif action == 'guitar-karaoke' %}Gitaar karaoke (alles behalve gitaar){% elif action == 'vocal-choir' %}Zang &amp; koor scheiden{% else %}{{ action }} Separation{% endif %}
             </span><br>
             <strong>Model:</strong> {{ model }}
             <br><strong>Uitvoerformaat:</strong> {{ output_format|upper }}
